@@ -29,7 +29,7 @@ var config = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel?presets[]=react'
+                loader: 'babel?presets[]=react&presets[]=es2015'
             }, {
                 test: /\.json$/,
                 loader: 'json'
@@ -39,6 +39,9 @@ var config = {
             }, {
                 test: /\.css$/,
                 loader: 'style!css?' + (NODE_ENV === 'production' ? 'minimize' : '-minimize')
+            }, {
+                test: /\.less$/,
+                loader: 'style!css?' + (NODE_ENV === 'production' ? 'minimize' : '-minimize') + '!less'
             }, {
                 test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
                 loader: 'file?name=[path][name].[ext]'
