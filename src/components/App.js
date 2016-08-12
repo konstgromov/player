@@ -1,17 +1,30 @@
-const React = require("react");
+const React = require("react"),
+      { Link } = require("react-router");
 
 class App extends React.Component {
     render() {
+        const buttonsData = [
+            { path: "/", text: "Home" },
+            { path: "/registration", text: "Registration" },
+            { path: "/login", text: "Login" }
+        ];
+
+        const buttons = buttonsData.map(({ path, text }, i) => {
+            const buttonProps = {
+                key: i,
+                to: path,
+                className: "menu__button",
+                activeClassName: "menu__button_active",
+                onlyActiveOnIndex: true
+            };
+
+            return <Link {...buttonProps}>{text}</Link>
+        });
+
         return (
             <div>
-                <input style={{ position: "absolute", top: "20px", left: "20px" }} ref={(input) => {
-                    if (input) {
-                        input.oninput = () => {
-                            this.context.router.push(input.value);
-                        };
-                    }
-                }} type="text" />
-                {this.props.children}
+                <div className="menu">{buttons}</div>
+                <div className="content">{this.props.children}</div>
             </div>
         );
     }
