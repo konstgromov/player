@@ -1,14 +1,42 @@
-require("normalize.css");
-require("styles/main.less");
+require('normalize.css');
+require('./styles/main.less');
 
-const React = require("react"),
-      ReactDOM = require("react-dom"),
-      { Router, browserHistory } = require("react-router"),
-      routes = require("routes");
+const React = require('react');
+const ReactDOM = require('react-dom');
+const { Router, browserHistory } = require('react-router');
+const { Provider } = require('react-redux');
+const { createStore } = require('redux');
 
-document.addEventListener("DOMContentLoaded", function () {
-    ReactDOM.render(
-        <Router history={browserHistory} routes={routes} />,
-        document.querySelector("#container")
-    );
+const initState = {
+	playlist: [
+		{
+			author: 'Lake Of Tears',
+			name: 'Last Purple Sky',
+			duration: 357
+		}, {
+			author: 'Kaleo',
+			name: 'Way Down We Go',
+			duration: 219
+		}, {
+			author: 'Pretty Pink feat. ARC',
+			name: 'Run',
+			duration: 177
+		}, {
+			author: 'Data',
+			name: 'Don\'t Sing (feat. Benny Sings)',
+			duration: 250
+		}
+	]
+};
+
+const reducer = require('./reducer');
+const store = createStore(reducer, initState);
+const routes = require('./routes')(store);
+
+document.addEventListener('DOMContentLoaded', function () {
+	ReactDOM.render((
+		<Provider store={store}>
+			<Router history={browserHistory} routes={routes} />
+		</Provider>
+	), document.querySelector('#container'));
 });

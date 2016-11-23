@@ -1,50 +1,16 @@
-html {
-    font-family: Arial, sans-serif;
+*,
+*:before,
+*:after {
+	box-sizing: border-box;
 }
 
-    body {
-        position: relative;
-    }
+html {
+	font-family: Arial, sans-serif;
+}
 
-        #container {
-            width: 800px;
-            margin: 50px auto;
-        }
-
-            .menu {
-                margin-bottom: 20px;
-            }
-
-                .menu__button {
-                    display: inline-block;
-                    padding: 5px 10px;
-                    text-decoration: none;
-                    border-radius: 5px;
-                    color: black;
-                    border: 1px solid gray;
-                }
-
-                .menu__button:not(:last-child) {
-                    margin-right: 5px;
-                }
-
-                .menu__button_active {
-                    background: lightgray;
-                }
-
-            .content {
-                margin-top: 20px;
-            }
-
-                .content input {
-                    display: block;
-                    width: 280px;
-                    margin: 10px 0;
-                    padding: 5px;
-                    border-radius: 5px;
-                    border: 1px solid gray;
-                }
-
-                .content button {
-                    margin-top: 10px;
-                }
+body {
+	position: relative;
+	min-height: 100vh;
+	background: url(../images/background.jpg) fixed center no-repeat;
+	background-size: cover;
+}

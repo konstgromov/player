@@ -1,19 +1,21 @@
-module.exports = {
-    path: "/",
-    component: require("components/App"),
-    indexRoute: {
-        component: require("components/Playlist")
-    },
-    childRoutes: [
-        {
-            path: "/registration",
-            component: require("components/Registration")
-        }, {
-            path: "/login",
-            component: require("components/Login")
-        }, {
-            path: "*",
-            component: require("components/NotFound")
-        }
-    ]
+module.exports = function (store) {
+	return {
+		path: '/',
+		component: require('./components/App'),
+		indexRoute: {
+			component: require('./containers/Playlist')
+		},
+		childRoutes: [
+			{
+				path: '/log-in',
+				component: require('./components/User')
+			}, {
+				path: '/sign-up',
+				component: require('./components/User')
+			}, {
+				path: '*',
+				component: require('./components/NotFound')
+			}
+		]
+	};
 };
