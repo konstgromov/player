@@ -1,74 +1,61 @@
 'use strict';
 
-const NODE_ENV = process.env.NODE_ENV =
-	process.env.NODE_ENV === 'production' || process.argv.includes('--production')
-		? 'production' : 'development';
+if (process.env.NODE_ENV !== 'production') {
+	process.env.NODE_ENV = 'development';
+}
 
-const path = require('path');
-const webpack = require('webpack');
+var NODE_ENV = process.env.NODE_ENV;
 
-const config = {
+var path = require('path');
+var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
+
+var cssLoaders = ['style-loader', 'css-loader', {
+	loader: 'postcss-loader',
+	options: {
+		plugins: function () {
+			return [autoprefixer()];
+		}
+	}
+}];
+
+var config = {
 	context: __dirname,
-	entry: './src/entry',
+	entry: {
+		app: ['babel-polyfill', 'entry']
+	},
 	output: {
 		path: path.join(__dirname, './build/'),
-		filename: 'bundle.js',
+		filename: '[name].js',
+		chunkFilename: 'chunks/[name].js',
 		publicPath: '/build/'
 	},
 	resolve: {
-		modulesDirectories: ['node_modules'],
-		extensions: ['', '.js']
-	},
-	resolveLoader: {
-		modulesDirectories: ['node_modules'],
-		moduleTemplates: ['*-loader', '*'],
-		extensions: ['', '.js']
+		modules: [
+			path.join(__dirname, './src/'),
+			'node_modules'
+		]
 	},
 	module: {
-		loaders: [
+		rules: [
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
-				loader: 'babel',
-				query: {
-					presets: ['react', 'es2015', 'es2016', 'es2017']
+				loader: 'babel-loader',
+				options: {
+					presets: [['es2015', { modules: false }], 'es2016', 'es2017', 'react'],
+					plugins: ['syntax-dynamic-import', 'transform-object-rest-spread']
 				}
 			}, {
-				test: /\.json$/,
-				loader: 'json'
-			}, {
-				test: /\.html$/,
-				loader: 'html'
-			}, {
 				test: /\.css$/,
-				loader: combineLoaders(
-					{
-						loader: 'style'
-					}, {
-						loader: 'css',
-						query: {
-							minimize: NODE_ENV === 'production'
-						}
-					}
-				)
+				use: cssLoaders
 			}, {
-				test: /\.less$/,
-				loader: combineLoaders(
-					{
-						loader: 'style'
-					}, {
-						loader: 'css',
-						query: {
-							minimize: NODE_ENV === 'production'
-						}
-					}, {
-						loader: 'less'
-					}
-				)
+				test: /\.scss$/,
+				use: cssLoaders.concat('sass-loader')
 			}, {
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
-				loader: 'file',
-				query: {
+				loader: 'file-loader',
+				options: {
 					name: '[path][name].[ext]'
 				}
 			}
@@ -83,18 +70,10 @@ const config = {
 
 if (NODE_ENV === 'production') {
 	config.plugins.push(
-		new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		})
+		new webpack.optimize.ModuleConcatenationPlugin()
 	);
 } else {
-	config.devtool = 'cheap-module-inline-source-map';
-}
-
-function combineLoaders(...loaders) {
-	return loaders.map(({ loader, query }) => query ? `${loader}?${JSON.stringify(query)}` : loader).join('!');
+	config.devtool = 'module-inline-source-map';
 }
 
 module.exports = config;
