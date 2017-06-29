@@ -1,15 +1,15 @@
-require('../styles/user.less');
+import './styles.scss';
 
-const React = require('react');
-const { Link } = require('react-router');
-const axios = require('axios');
+import React, { PureComponent } from 'react';
+import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
-class User extends React.PureComponent {
+class User extends PureComponent {
 	render() {
 		let inputs;
 
-		switch (this.props.location.pathname) {
-			case '/log-in':
+		switch (this.props.type) {
+			case 'log-in':
 				inputs = [
 					{
 						ref: 'email',
@@ -23,7 +23,7 @@ class User extends React.PureComponent {
 				];
 
 				break;
-			case '/sign-up':
+			case 'sign-up':
 				inputs = [
 					{
 						ref: 'name',
@@ -46,8 +46,8 @@ class User extends React.PureComponent {
 		return (
 			<form className="user-form" onSubmit={this.send.bind(this)}>
 				<ul className="user-form__tabs">
-					<li><Link to="/log-in" activeClassName="user-form__tab_active">Log In</Link></li>
-					<li><Link to="/sign-up" activeClassName="user-form__tab_active">Sign Up</Link></li>
+					<li><NavLink to="/log-in" activeClassName="user-form__tab_active">Log In</NavLink></li>
+					<li><NavLink to="/sign-up" activeClassName="user-form__tab_active">Sign Up</NavLink></li>
 				</ul>
 				<ul className="user-form__inputs">{inputs.map((props, i) => <li key={i}><input {...props} /></li>)}</ul>
 				<button className="user-form__button" type="submit">Send</button>
@@ -60,11 +60,11 @@ class User extends React.PureComponent {
 
 		let path;
 
-		switch (this.props.location.pathname) {
-			case '/log-in':
+		switch (this.props.type) {
+			case 'log-in':
 				path = 'http://localhost:8000/api/token';
 				break;
-			case '/sign-up':
+			case 'sign-up':
 				path = 'http://localhost:8000/api/sign-up';
 				break;
 		}
@@ -89,4 +89,4 @@ class User extends React.PureComponent {
 	}
 }
 
-module.exports = User;
+export default User;

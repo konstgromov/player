@@ -1,42 +1,30 @@
-require('normalize.css');
-require('./styles/main.less');
+import 'normalize.css';
+import 'styles.scss';
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const { Router, browserHistory } = require('react-router');
-const { Provider } = require('react-redux');
-const { createStore } = require('redux');
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'configureStore';
+import App from 'components/App';
 
-const initState = {
-	playlist: [
-		{
-			author: 'Lake Of Tears',
-			name: 'Last Purple Sky',
-			duration: 357
-		}, {
-			author: 'Kaleo',
-			name: 'Way Down We Go',
-			duration: 219
-		}, {
-			author: 'Pretty Pink feat. ARC',
-			name: 'Run',
-			duration: 177
-		}, {
-			author: 'Data',
-			name: 'Don\'t Sing (feat. Benny Sings)',
-			duration: 250
-		}
-	]
-};
+const DOMReady = new Promise((resolve) => {
+	if (document.readyState === 'interactive') {
+		setTimeout(resolve, 0);
+	} else {
+		document.addEventListener('DOMContentLoaded', resolve);
+	}
+});
 
-const reducer = require('./reducer');
-const store = createStore(reducer, initState);
-const routes = require('./routes')(store);
+DOMReady.then(() => {
+	const container = document.querySelector('#container');
+	const store = configureStore();
 
-document.addEventListener('DOMContentLoaded', function () {
 	ReactDOM.render((
 		<Provider store={store}>
-			<Router history={browserHistory} routes={routes} />
+			<BrowserRouter>
+				<App />
+			</BrowserRouter>
 		</Provider>
-	), document.querySelector('#container'));
+	), container);
 });

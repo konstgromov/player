@@ -1,16 +1,18 @@
-const React = require('react');
-const { connect } = require('react-redux');
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 
-class Playlist extends React.PureComponent {
+class Playlist extends PureComponent {
 	render() {
+		const { playlist } = this.props;
+
 		let content;
 
-		if (this.props.playlist.length) {
-			const playlist = this.props.playlist.map(function ({ author, name }, i) {
+		if (playlist.length) {
+			const items = playlist.map(({ author, name }, i) => {
 				return <li key={i}>{`${author} – ${name}`}</li>;
 			});
 
-			content = <ul>{playlist}</ul>;
+			content = <ul>{items}</ul>;
 		} else {
 			content = <p>Playlist is empty.</p>;
 		}
@@ -26,4 +28,4 @@ class Playlist extends React.PureComponent {
 
 Playlist = connect(({ playlist }) => ({ playlist }))(Playlist);
 
-module.exports = Playlist;
+export default Playlist;

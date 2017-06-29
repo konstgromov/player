@@ -1,24 +1,24 @@
-@width: 442px;
-@height: 402px;
-@padding: 20px;
-@border: 1px solid #ddd;
+$width: 442px;
+$height: 402px;
+$padding: 20px;
+$border: 1px solid #ddd;
 
 .user-form {
 	position: absolute;
-	top: ~"calc(50vh -" @height / 2 ~")";
-	left: ~"calc(50vw -" @width / 2 ~")";
+	top: calc(50vh - #{$height / 2});
+	left: calc(50vw - #{$width / 2});
 	display: flex;
 	flex-direction: column;
-	width: @width;
-	height: @height;
-	border: @border;
+	width: $width;
+	height: $height;
+	border: $border;
 	background: #fff;
 }
 
 	.user-form__tabs,
 	.user-form__button {
-		margin: @padding;
-		border: @border;
+		margin: $padding;
+		border: $border;
 	}
 
 	.user-form__tabs li,
@@ -41,7 +41,7 @@
 		display: flex;
 		padding: 0;
 		list-style: none;
-		border: @border;
+		border: $border;
 	}
 
 		.user-form__tabs li {
@@ -79,7 +79,7 @@
 				margin: 10px 0;
 				padding: 0 10px;
 				line-height: 40px;
-				border: @border;
+				border: $border;
 			}
 
 	.user-form__button {
