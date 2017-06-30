@@ -1,5 +1,8 @@
-function rootReducer(state = {}, action) {
-	return state;
-}
+import { combineReducers } from 'redux';
+import auth from './auth';
+import playlist from './playlist';
 
-export default rootReducer;
+export default combineReducers({
+	auth,
+	playlist
+});

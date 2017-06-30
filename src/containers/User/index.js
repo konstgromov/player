@@ -1,15 +1,24 @@
 import './styles.scss';
 
 import React, { PureComponent } from 'react';
-import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { NavLink, withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
+import { auth } from 'actionCreators';
 
 class User extends PureComponent {
+	constructor(props) {
+		super(props);
+
+		this.send = this.send.bind(this);
+	}
+
 	render() {
 		let inputs;
 
 		switch (this.props.type) {
-			case 'log-in':
+			case 'login':
 				inputs = [
 					{
 						ref: 'email',
@@ -23,7 +32,7 @@ class User extends PureComponent {
 				];
 
 				break;
-			case 'sign-up':
+			case 'signup':
 				inputs = [
 					{
 						ref: 'name',
@@ -44,10 +53,10 @@ class User extends PureComponent {
 		}
 
 		return (
-			<form className="user-form" onSubmit={this.send.bind(this)}>
+			<form className="user-form" onSubmit={this.send}>
 				<ul className="user-form__tabs">
-					<li><NavLink to="/log-in" activeClassName="user-form__tab_active">Log In</NavLink></li>
-					<li><NavLink to="/sign-up" activeClassName="user-form__tab_active">Sign Up</NavLink></li>
+					<li><NavLink to="/login" activeClassName="user-form__tab_active">Log In</NavLink></li>
+					<li><NavLink to="/signup" activeClassName="user-form__tab_active">Sign Up</NavLink></li>
 				</ul>
 				<ul className="user-form__inputs">{inputs.map((props, i) => <li key={i}><input {...props} /></li>)}</ul>
 				<button className="user-form__button" type="submit">Send</button>
@@ -58,35 +67,16 @@ class User extends PureComponent {
 	send(event) {
 		event.preventDefault();
 
-		let path;
+		const { type, actions: { auth } } = this.props;
 
-		switch (this.props.type) {
-			case 'log-in':
-				path = 'http://localhost:8000/api/token';
-				break;
-			case 'sign-up':
-				path = 'http://localhost:8000/api/sign-up';
-				break;
+		if (type === 'login') {
+			auth();
 		}
-
-		const data = {};
-
-		for (let input in this.refs) {
-			data[input] = this.refs[input].value;
-		}
-
-		axios({
-			method: 'POST',
-			url: path,
-			data,
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}).then(
-			(...args) => console.log(args),
-			(...args) => console.log(args)
-		);
 	}
 }
 
-export default User;
+const mapDispatchToProps = (dispatch) => ({
+	actions: bindActionCreators({ auth }, dispatch)
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(User));

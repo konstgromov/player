@@ -1,23 +1,27 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import PrivateRoute from 'containers/PrivateRoute';
+import Async from 'components/Async';
+import Menu from 'containers/Menu';
 import Playlist from 'containers/Playlist';
-import User from 'components/User';
 import NotFound from 'components/NotFound';
+
+const getUser = () => import('containers/User');
 
 class App extends PureComponent {
 	render() {
 		return (
-			<Switch>
-				<Route exact path="/" component={Playlist} />
-				<Route exact path="/log-in" render={() => <User type="log-in" />} />
-				<Route exact path="/sign-up" render={() => <User type="sign-up" />} />
-				<Route component={NotFound} />
-			</Switch>
+			<div>
+				<Menu />
+				<Switch>
+					<PrivateRoute exact path="/" component={Playlist} />
+					<Route exact path="/login" render={() => <Async getComponent={getUser} type="login" />} />
+					<Route exact path="/signup" render={() => <Async getComponent={getUser} type="signup" />} />
+					<Route component={NotFound} />
+				</Switch>
+			</div>
 		);
 	}
 }
 
-App = withRouter(App);
-
-export default App;
+export default withRouter(App);

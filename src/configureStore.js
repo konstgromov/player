@@ -1,4 +1,6 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 import rootReducer from 'reducers/root';
 
 function configureStore() {
@@ -24,7 +26,8 @@ function configureStore() {
 		]
 	};
 
-	const store = createStore(rootReducer, initState);
+	const middleware = applyMiddleware(thunk, logger);
+	const store = createStore(rootReducer, initState, middleware);
 
 	return store;
 }
