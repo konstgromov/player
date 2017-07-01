@@ -5,10 +5,10 @@ import Async from 'components/Async';
 import Menu from 'containers/Menu';
 import AudioPlayer from 'containers/AudioPlayer';
 import AudioPlayerView from 'containers/AudioPlayerView';
-import Playlist from 'containers/Playlist';
 import NotFound from 'components/NotFound';
 
 const getUser = () => import('containers/User');
+const getPlaylist = () => import('containers/Playlist');
 
 class App extends PureComponent {
 	render() {
@@ -18,7 +18,7 @@ class App extends PureComponent {
 				<AudioPlayer />
 				<AudioPlayerView />
 				<Switch>
-					<PrivateRoute exact path="/" component={Playlist} />
+					<PrivateRoute exact path="/" render={() => <Async getComponent={getPlaylist} />} />
 					<Route exact path="/login" render={() => <Async getComponent={getUser} type="login" />} />
 					<Route exact path="/signup" render={() => <Async getComponent={getUser} type="signup" />} />
 					<Route component={NotFound} />

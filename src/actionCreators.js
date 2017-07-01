@@ -1,9 +1,10 @@
 import {
 	AUTH_REQUEST,
 	LOGOUT,
-	SET_PLAYER_TIME,
+	PLAYER_SET_TIME,
 	PLAYER_PLAY,
-	PLAYER_PAUSE
+	PLAYER_PAUSE,
+	PLAYER_CHANGE_TRACK
 } from 'actionTypes';
 
 export const auth = () => (dispatch) => {
@@ -18,15 +19,16 @@ export const logout = () => {
 	return { type: LOGOUT };
 };
 
-export const setPlayerTime = (time) => ({
-	type: SET_PLAYER_TIME,
+export const playerSetTime = (time) => ({
+	type: PLAYER_SET_TIME,
 	payload: time
 });
 
-export const playerPlay = () => ({
-	type: PLAYER_PLAY
-});
+export const playerPlay = () => ({ type: PLAYER_PLAY });
 
-export const playerPause = () => ({
-	type: PLAYER_PAUSE
+export const playerPause = () => ({ type: PLAYER_PAUSE });
+
+export const playerChangeTrack = payload => ({
+	type: PLAYER_CHANGE_TRACK,
+	payload
 });

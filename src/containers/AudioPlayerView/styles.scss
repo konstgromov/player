@@ -1,8 +1,17 @@
+.player__title {
+	padding: 5px;
+	color: #fff;
+}
+
 .player__button,
 .player__progress-bar {
 	display: inline-block;
 	height: 1.5em;
 	vertical-align: middle;
+}
+
+.player__button {
+	width: 80px;
 }
 
 .player__progress-bar {

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { setPlayerTime } from 'actionCreators';
+import { bindActionCreators } from 'redux';
+import { playerSetTime, playerPause } from 'actionCreators';
 
 const handlers = {
 	src(nextProp) {
@@ -32,11 +33,22 @@ class AudioPlayer extends PureComponent {
 		super(props);
 
 		const audio = this.audio = new Audio();
+		const { playerSetTime, playerPause } = this.props.actions;
+
+		audio.addEventListener('canplay', () => {
+			handlers.status.call(this, this.props.status);
+		});
+
+		audio.addEventListener('pause', () => {
+			if (this.props.status !== 'pause') {
+				playerPause();
+			}
+		});
 
 		audio.addEventListener('timeupdate', () => {
 			const time = this.audio.currentTime;
 
-			this.props.dispatch(setPlayerTime(time));
+			playerSetTime(time);
 		});
 
 		this.applyProps(this.props, true);
@@ -69,4 +81,8 @@ const mapStateToProps = ({ player: { src, status, time } }) => ({
 	time
 });
 
-export default connect(mapStateToProps)(AudioPlayer);
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators({ playerSetTime, playerPause }, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AudioPlayer);

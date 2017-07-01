@@ -1,6 +1,7 @@
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const LOGOUT = 'LOGOUT';
 
-export const SET_PLAYER_TIME = 'SET_PLAYER_TIME';
+export const PLAYER_SET_TIME = 'PLAYER_SET_TIME';
 export const PLAYER_PLAY = 'PLAYER_PLAY';
 export const PLAYER_PAUSE = 'PLAYER_PAUSE';
+export const PLAYER_CHANGE_TRACK = 'PLAYER_CHANGE_TRACK';
