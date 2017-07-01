@@ -1,5 +1,3 @@
-import './styles.scss';
-
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { setPlayerTime } from 'actionCreators';
@@ -30,7 +28,9 @@ const handlers = {
 const PROP_NAMES = Object.keys(handlers);
 
 class AudioPlayer extends PureComponent {
-	componentDidMount() {
+	constructor(props) {
+		super(props);
+
 		const audio = this.audio = new Audio();
 
 		audio.addEventListener('timeupdate', () => {

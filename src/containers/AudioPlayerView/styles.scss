@@ -1,0 +1,17 @@
+.player__button,
+.player__progress-bar {
+	display: inline-block;
+	height: 1.5em;
+	vertical-align: middle;
+}
+
+.player__progress-bar {
+	width: 200px;
+	background: lightgray;
+}
+
+.player__time-passed {
+	width: 0;
+	height: 100%;
+	background: steelblue;
+}
