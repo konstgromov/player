@@ -20,12 +20,15 @@ class Menu extends PureComponent {
 	render() {
 		const { isAuthenticated } = this.props;
 
-		return (
+		return isAuthenticated ? (
 			<ul className="menu">
-				{isAuthenticated ? <MenuItem path="/" text="Playlist" /> : null}
+				<MenuItem path="/" text="Playlist" />
+				<li className="menu__item"><a onClick={this.logout} href="/logout">Logout</a></li>
+			</ul>
+		) : (
+			<ul className="menu">
 				<MenuItem path="/login" text="Log In" />
 				<MenuItem path="/signup" text="Sign Up" />
-				{isAuthenticated ? <li className="menu__item"><a onClick={this.logout} href="/logout">Logout</a></li> : null}
 			</ul>
 		);
 	}

@@ -1,4 +1,4 @@
-import { AUTH_REQUEST, LOGOUT } from 'actionTypes';
+import { AUTH_REQUEST, LOGOUT, SET_PLAYER_TIME } from 'actionTypes';
 
 export const auth = () => (dispatch) => {
 	localStorage.token = 'test';
@@ -11,3 +11,8 @@ export const logout = () => {
 
 	return { type: LOGOUT };
 };
+
+export const setPlayerTime = (time) => ({
+	type: SET_PLAYER_TIME,
+	payload: time
+});
